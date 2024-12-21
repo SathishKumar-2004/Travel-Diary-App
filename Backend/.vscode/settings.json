@@ -1,0 +1,6 @@
+{
+  "powermode.presets": "particles",
+  "powermode.enabled": false,
+  "powermode.combo.location": "off",
+  "powermode.explosions.enabled": true
+}

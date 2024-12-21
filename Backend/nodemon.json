@@ -1,0 +1,8 @@
+{
+  "env":{
+    "DB_USER":"SathishKumar",
+    "DB_PASSWORD":"Sathish18%2378",
+    "DB_NAME":"MERN_app",
+    "JWT_KEY":"supersecret_dont_share"
+  }
+}
