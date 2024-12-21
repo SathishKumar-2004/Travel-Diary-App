@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import NavLinks from "./NavLinks";
-import BackDrop from "../UIElements/Backdrop";
+
 import SideDrawer from "./SideDrawer";
+import BackDropCard from "../UIElements/BackDropCard";
 
 const MainNavigation = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,7 +22,7 @@ const MainNavigation = () => {
 
   return (
     <>
-      {isDrawerOpen && <BackDrop onClick={handleDrawerClose} />}
+      {isDrawerOpen && <BackDropCard onClick={handleDrawerClose} />}
 
       <SideDrawer show={isDrawerOpen} onClick={handleDrawerClose}>
         <nav className="main-navigation__drawer-nav">
