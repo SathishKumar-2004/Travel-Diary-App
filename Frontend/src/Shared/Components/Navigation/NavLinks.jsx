@@ -63,7 +63,7 @@ const NavLinks = () => {
           onClick={handleProfileClick}
         >
           <img
-            src={`${import.meta.env.VITE_ASSET_URL}${auth.userImage}`}
+            src={`${auth.userImage}`}
             alt="profile image"
             className="profile-img"
           ></img>

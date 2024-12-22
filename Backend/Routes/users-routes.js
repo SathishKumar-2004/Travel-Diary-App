@@ -10,7 +10,8 @@ router.get("/", usersController.getUsers);
 
 router.post(
   "/signup",
-  fileUpload.single("image"),
+  fileUpload.fileUpload.single("image"),
+  fileUpload.uploadFileToFirebase,
   [
     check("name").notEmpty(),
     check("email").normalizeEmail().isEmail(), //normalizeEmail --- Test@gmail.com => test@gmail.com

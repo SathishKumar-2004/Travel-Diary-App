@@ -18,7 +18,8 @@ router.use(checkAuth);
 
 router.post(
   "/",
-  fileUpload.single("image"),
+  fileUpload.fileUpload.single("image"),
+  fileUpload.uploadFileToFirebase,
   [
     check("title").not().isEmpty(),
     check("description").isLength({ min: 5 }),

@@ -8,10 +8,23 @@ const path = require("path");
 const HttpError = require("./Models/http-errors");
 const placesRoutes = require("./Routes/places-routes");
 const usersRoutes = require("./Routes/users-routes");
+const fileUpload = require("./Middlewares/file-upload"); // Importing the uploadFileToFirebase function
 
 const app = express();
 
 app.use(bodyParser.json());
+
+// This middleware handles file upload and directly uploads it to Firebase
+app.post("/upload", fileUpload.uploadFileToFirebase, (req, res, next) => {
+  // Assuming uploadFileToFirebase adds the fileUrl to req.fileUrl
+  if (req.fileUrl) {
+    return res
+      .status(200)
+      .json({ message: "File uploaded successfully", fileUrl: req.fileUrl });
+  } else {
+    return next(new HttpError("File upload failed", 500));
+  }
+});
 
 app.use(
   "/uploads/images",
@@ -35,16 +48,11 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  if (req.file) {
-    fs.unlink(req.file.path, (err) => {
-      console.log(err);
-    });
-  }
   if (res.headerSent) {
     return next(error);
   }
   res.status(error.code || 500);
-  res.json({ message: error.message || "An unknown error occured" });
+  res.json({ message: error.message || "An unknown error occurred" });
 });
 
 mongoose

@@ -1,7 +1,7 @@
 const multer = require("multer");
 const uuid = require("uuid");
-const fs = require("fs");
-const path = require("path");
+const firebaseBucket = require("../firebase/firebase");
+const HttpError = require("../Models/http-errors");
 
 const MIME_TYPE = {
   "image/png": "png",
@@ -9,29 +9,48 @@ const MIME_TYPE = {
   "image/jpeg": "jpeg",
 };
 
-const uploadsPath = path.join(__dirname, "uploads/images");
-
-// Ensure the 'uploads/images' directory exists, if not create it
-if (!fs.existsSync(uploadsPath)) {
-  fs.mkdirSync(uploadsPath, { recursive: true });
-}
-
+// Setup multer storage
 const fileUpload = multer({
   limits: 5000000,
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/images");
-    },
-    filename: (req, file, cb) => {
-      const ext = MIME_TYPE[file.mimetype];
-      cb(null, uuid.v4() + "." + ext);
-    },
-  }),
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
     const isValid = !!MIME_TYPE[file.mimetype];
-    let error = isValid ? null : new Error("Invalid mime type !");
+    let error = isValid ? null : new Error("Invalid mime type!");
     cb(error, isValid);
   },
 });
 
-module.exports = fileUpload;
+const uploadFileToFirebase = async (req, res, next) => {
+  if (!req.file) {
+    return next(new HttpError("No file uploaded", 400));
+  }
+
+  const file = req.file;
+  const fileName = uuid.v4() + "." + MIME_TYPE[file.mimetype];
+  const blob = firebaseBucket.file(fileName);
+
+  const blobStream = blob.createWriteStream({
+    metadata: {
+      contentType: file.mimetype, // Set content type
+    },
+  });
+
+  blobStream.on("finish", () => {
+    // Construct the public URL for the uploaded file
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      firebaseBucket.name
+    }/o/${encodeURIComponent(fileName)}?alt=media`;
+
+    req.fileUrl = fileUrl;
+    next();
+  });
+
+  blobStream.on("error", (err) => {
+    next(new HttpError("File upload failed", 500));
+  });
+
+  blobStream.end(file.buffer);
+};
+
+exports.fileUpload = fileUpload;
+exports.uploadFileToFirebase = uploadFileToFirebase;
