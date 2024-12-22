@@ -5,16 +5,16 @@ import {
   Navigate,
   Routes,
 } from "react-router-dom";
+
 import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 import { AuthContext } from "./Shared/Context/Auth-context";
 import { useAuth } from "./Shared/hooks/auth-hook";
 import LoadingSpinner from "./Shared/Components/UIElements/LoadingSpinner";
-
-const Users = React.lazy(() => import("./User/Pages/Users"));
-const NewPlace = React.lazy(() => import("./Places/Pages/NewPlace"));
-const UserPlaces = React.lazy(() => import("./Places/Pages/UserPlaces"));
-const UpdatePlace = React.lazy(() => import("./Places/Pages/UpdatePlace"));
-const Auth = React.lazy(() => import("./User/Pages/Auth"));
+import UserPlaces from "./Places/Pages/UserPlaces";
+import Users from "./User/Pages/Users";
+import NewPlace from "./Places/Pages/NewPlace";
+import UpdatePlace from "./Places/Pages/UpdatePlace";
+import Auth from "./User/Pages/Auth";
 
 const App = () => {
   const { token, login, logout, userId, userImage } = useAuth();
@@ -34,7 +34,7 @@ const App = () => {
       <Route path="/auth" element={<Auth />} />
       <Route path="/:uid/places" element={<UserPlaces />} />
       {/* Redirect all unmatched routes to login */}
-      <Route path="*" element={<Navigate to="/auth" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 
