@@ -18,20 +18,21 @@ WanderLog is a web application built using the MERN stack (MongoDB, Express.js, 
 - **Authentication**: JWT (JSON Web Tokens)
 - **Geolocation**: Google Maps API (or other map service)
 - **File Upload**: Multer (for handling image uploads)
+- **File Storage**: Firebase
 
 ## Screenshots
 
 ### SignUp
 
-![SignUp](Images\SignUp.png)
+![SignUp](Images/SignUp.png)
 
 ### Users
 
-![Users](Images\Users.png)
+![Users](Images/Users.png)
 
 ### Add Place
 
-![Add Place](Images\Add_Place.png)
+![Add Place](Images/Add_Place.png)
 
 ### Places
 
@@ -44,7 +45,7 @@ WanderLog is a web application built using the MERN stack (MongoDB, Express.js, 
 ## Live Site
 
 Check out the live version of the app here:  
-[Live Site Link](https://your-live-site-link.com)
+[Live Site Link](https://wanderlog-travel-diary.netlify.app)
 
 ## GitHub Repository
 
