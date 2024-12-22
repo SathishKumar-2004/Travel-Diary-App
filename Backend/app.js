@@ -8,15 +8,13 @@ const path = require("path");
 const HttpError = require("./Models/http-errors");
 const placesRoutes = require("./Routes/places-routes");
 const usersRoutes = require("./Routes/users-routes");
-const fileUpload = require("./Middlewares/file-upload"); // Importing the uploadFileToFirebase function
+const fileUpload = require("./Middlewares/file-upload");
 
 const app = express();
 
 app.use(bodyParser.json());
 
-// This middleware handles file upload and directly uploads it to Firebase
 app.post("/upload", fileUpload.uploadFileToFirebase, (req, res, next) => {
-  // Assuming uploadFileToFirebase adds the fileUrl to req.fileUrl
   if (req.fileUrl) {
     return res
       .status(200)

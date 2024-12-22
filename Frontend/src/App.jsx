@@ -26,7 +26,7 @@ const App = () => {
       <Route path="/:uid/places" element={<UserPlaces />} />
       <Route path="/places/new" element={<NewPlace />} />
       <Route path="/places/:placeId" element={<UpdatePlace />} />
-      {/* Redirect all unmatched routes to home */}
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   ) : (
@@ -34,7 +34,7 @@ const App = () => {
       <Route path="/" element={<Users />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/:uid/places" element={<UserPlaces />} />
-      {/* Redirect all unmatched routes to login */}
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
